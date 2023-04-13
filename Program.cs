@@ -12,16 +12,11 @@ namespace AddressBook_Collection
         {
             AddressBook addressBook = new AddressBook();
 
-            addressBook.AddPerson(new Person { FirstName = "John", LastName = "Doe", Address = "123 Main St", City = "Anytown", State = "CA", Zip = "12345" });
-            addressBook.AddPerson(new Person { FirstName = "Jane", LastName = "Doe", Address = "456 Elm St", City = "Othertown", State = "NY", Zip = "67890" });
-            addressBook.AddPerson(new Person { FirstName = "Bob", LastName = "Smith", Address = "789 Oak St", City = "Anytown", State = "CA", Zip = "12345" });
-            addressBook.AddPerson(new Person { FirstName = "Mary", LastName = "Smith", Address = "321 Pine St", City = "Another town", State = "NY", Zip = "67890" });
-
-            Console.WriteLine("People in Anytown:");
-            foreach (Person person in addressBook.ViewPeopleByCity("Anytown"))
-            {
-                Console.WriteLine($"{person.Name}, Address: {person.Address}, City: {person.City}, State: {person.State}, Zip: {person.Zip}");  
+            // Adding sample data
+            addressBook.AddPerson(new Person { FirstName = "John", LastName = "Doe", Address = "123 Main St", City = "Chicago", State = "IL", PhoneNumber = "555-1234", Email = "johndoe@example.com" });
+            addressBook.AddPerson(new Person { FirstName = "Jane", LastName = "Smith", Address = "456 State St", City = "Chicago", State = "IL", PhoneNumber = "555-5678", Email = "janesmith@example.com" });
+            addressBook.AddPerson(new Person { FirstName = "Bob", LastName = "Johnson", Address = "789 Elm St", City = "New York", State = "NY", PhoneNumber = "555-6789", Email = "bobjohnson@example.com" });
+            addressBook.AddPerson(new Person { FirstName = "Alice", LastName = "Lee", Address = "321 Oak St", City = "New York", State = "NY", PhoneNumber = "555-7890", Email = "alicelee@example.com" });
             }
-        }
     }
 }
