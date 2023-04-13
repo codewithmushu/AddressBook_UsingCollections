@@ -8,57 +8,57 @@ namespace AddressBook_Collection
 {
     public class AddressBook
     {
-        private HashSet<Person> people = new HashSet<Person>();
-        private Dictionary<string, List<Person>> cityDictionary = new Dictionary<string, List<Person>>();
-        private Dictionary<string, List<Person>> stateDictionary = new Dictionary<string, List<Person>>();
+        private List<Person> people = new List<Person>();
 
         public void AddPerson(Person person)
         {
-            if (people.Contains(person))
+            if (!people.Any(p => p.FirstName.Equals(person.FirstName, StringComparison.OrdinalIgnoreCase)))
             {
-                Console.WriteLine("This person already exists in the address book.");
-                return;
-            }
-
-            people.Add(person);
-
-            if (!cityDictionary.ContainsKey(person.City))
-            {
-                cityDictionary[person.City] = new List<Person>();
-            }
-            cityDictionary[person.City].Add(person);
-
-            if (!stateDictionary.ContainsKey(person.State))
-            {
-                stateDictionary[person.State] = new List<Person>();
-            }
-            stateDictionary[person.State].Add(person);
-        }
-
-        public List<Person> ViewPeopleByCity(string city)
-        {
-            if (cityDictionary.ContainsKey(city))
-            {
-                return cityDictionary[city];
+                people.Add(person);
+                Console.WriteLine($"Added {person.FirstName} {person.LastName} to the address book.");
             }
             else
             {
-                Console.WriteLine($"No people found in {city}");
-                return new List<Person>();
+                Console.WriteLine($"A person with the name {person.FirstName} already exists in the address book.");
             }
         }
 
-        public List<Person> ViewPeopleByState(string state)
+        public void GetCountByCity()
         {
-            if (stateDictionary.ContainsKey(state))
+            var result = people.GroupBy(p => p.City.ToLower())
+                               .Select(g => new { City = g.Key, Count = g.Count() });
+            if (result.Any())
             {
-                return stateDictionary[state];
+                Console.WriteLine("Number of persons in each city:");
+                foreach (var group in result)
+                {
+                    Console.WriteLine($"{group.City}: {group.Count}");
+                }
             }
             else
             {
-                Console.WriteLine($"No people found in {state}");
-                return new List<Person>();
+                Console.WriteLine("No data found.");
             }
         }
+
+        public void GetCountByState()
+        {
+            var result = people.GroupBy(p => p.State.ToLower())
+                               .Select(g => new { State = g.Key, Count = g.Count() });
+            if (result.Any())
+            {
+                Console.WriteLine("Number of persons in each state:");
+                foreach (var group in result)
+                {
+                    Console.WriteLine($"{group.State}: {group.Count}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No data found.");
+            }
+        }
+
     }
+
 }
