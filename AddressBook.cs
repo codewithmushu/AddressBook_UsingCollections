@@ -8,29 +8,57 @@ namespace AddressBook_Collection
 {
     public class AddressBook
     {
-        private List<Person> people;
-
-        public AddressBook()
-        {
-            people = new List<Person>();
-        }
+        private HashSet<Person> people = new HashSet<Person>();
+        private Dictionary<string, List<Person>> cityDictionary = new Dictionary<string, List<Person>>();
+        private Dictionary<string, List<Person>> stateDictionary = new Dictionary<string, List<Person>>();
 
         public void AddPerson(Person person)
         {
             if (people.Contains(person))
             {
-                Console.WriteLine($"Person with name {person.Name} already exists in the address book.");
+                Console.WriteLine("This person already exists in the address book.");
+                return;
+            }
+
+            people.Add(person);
+
+            if (!cityDictionary.ContainsKey(person.City))
+            {
+                cityDictionary[person.City] = new List<Person>();
+            }
+            cityDictionary[person.City].Add(person);
+
+            if (!stateDictionary.ContainsKey(person.State))
+            {
+                stateDictionary[person.State] = new List<Person>();
+            }
+            stateDictionary[person.State].Add(person);
+        }
+
+        public List<Person> ViewPeopleByCity(string city)
+        {
+            if (cityDictionary.ContainsKey(city))
+            {
+                return cityDictionary[city];
             }
             else
             {
-                people.Add(person);
+                Console.WriteLine($"No people found in {city}");
+                return new List<Person>();
             }
         }
 
-        public List<Person> SearchByName(string name)
+        public List<Person> ViewPeopleByState(string state)
         {
-            return people.Where(person => person.Name == name).ToList();
+            if (stateDictionary.ContainsKey(state))
+            {
+                return stateDictionary[state];
+            }
+            else
+            {
+                Console.WriteLine($"No people found in {state}");
+                return new List<Person>();
+            }
         }
-
     }
 }
